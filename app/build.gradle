@@ -35,6 +35,9 @@ android {
         }
     }
     ndkVersion "27.1.12297006"
+    lint {
+          baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {
