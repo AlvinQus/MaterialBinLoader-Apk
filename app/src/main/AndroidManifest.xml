@@ -1,152 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingClass" >
-
+<manifest
+    android:compileSdkVersion="35"
+    android:compileSdkVersionCodename="15"
+    package="io.bambosan.mbloader"
+    platformBuildVersionCode="35"
+    platformBuildVersionName="15"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-feature
         android:glEsVersion="0x20000"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
+        android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Memungkinkan aplikasi membuat soket jaringan dan menggunakan protokol jaringan khusus. Browser dan aplikasi lain menyediakan sarana untuk mengirim data ke internet sehingga izin ini tidak diperlukan untuk mengirim data ke internet. -->
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+    <!-- Memungkinkan aplikasi menerima paket yang dikirim ke semua perangkat melalui jaringan Wi-Fi menggunakan alamat multicast, bukan hanya ponsel Anda. Izin ini akan menggunakan lebih banyak daya daripada mode selain multicast. -->
+    <uses-permission
+        android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <!-- Memungkinkan aplikasi melihat informasi tentang koneksi jaringan, misalnya jaringan yang ada dan tersambung. -->
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Mengizinkan aplikasi menulis konten penyimpanan bersama Anda. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Mengizinkan aplikasi untuk mengendalikan vibrator. -->
+    <uses-permission
+        android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Mengizinkan apl mencegah ponsel tidur. -->
+    <uses-permission
+        android:name="android.permission.WAKE_LOCK" />
+    <!-- Memungkinkan aplikasi melihat informasi tentang jaringan Wi-Fi, misalnya apakah Wi-Fi diaktifkan dan nama perangkat Wi-Fi yang tersambung. -->
+    <uses-permission
+        android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- Mengizinkan aplikasi menggunakan layanan di latar depan. -->
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE" />
     <queries>
-        <package android:name="com.mojang.minecraftpe" />
+        <package
+            android:name="com.mojang.minecraftpe" />
         <intent>
-           <action android:name="android.intent.action.VIEW" />
-           <data android:scheme="http" />
+            <action
+                android:name="android.intent.action.VIEW" />
+            <data
+                android:scheme="http" />
         </intent>
     </queries>
-    
+    <permission
+        android:name="io.bambosan.mbloader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature" />
+    <uses-permission
+        android:name="io.bambosan.mbloader.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
     <application
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:debuggable="true"
+        android:supportsRtl="true"
+        android:extractNativeLibs="false"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:supportsRtl="true" >
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Material3.Dark.NoActionBar">
+            android:theme="@style/Theme.Material3.Dark.NoActionBar"
+            android:name="io.bambosan.mbloader.MainActivity"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action
+                    android:name="android.intent.action.MAIN" />
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".Fallback"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:name="io.bambosan.mbloader.Fallback"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
+                <action
+                    android:name="android.intent.action.VIEW" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
             android:name="com.mojang.minecraftpe.Launcher"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="fontScale|density|smallestScreenSize|screenSize|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"
-            android:excludeFromRecents="false"
             android:exported="true"
+            android:excludeFromRecents="false"
             android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
-            tools:ignore="DiscouragedApi">
+            android:configChanges="density|fontScale|keyboard|keyboardHidden|locale|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen|uiMode"
+            android:alwaysRetainTaskState="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="mc" />
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="*/*"/>
-                <data android:host="*"/>
-                <data android:scheme="file"/>
-                <data android:scheme="content"/>
-                <data android:pathPattern=".*\\.mcworld"/>
-                <data android:pathPattern=".*\\..*\\.mcworld"/>
-                <data android:pathPattern=".*\\..*\\..*\\.mcworld"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.mcworld"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mcworld"/>
-                <data android:pathPattern=".*\\.mcpack"/>
-                <data android:pathPattern=".*\\..*\\.mcpack"/>
-                <data android:pathPattern=".*\\..*\\..*\\.mcpack"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.mcpack"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mcpack"/>
-                <data android:pathPattern=".*\\.mcaddon"/>
-                <data android:pathPattern=".*\\..*\\.mcaddon"/>
-                <data android:pathPattern=".*\\..*\\..*\\.mcaddon"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.mcaddon"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mcaddon"/>
-                <data android:pathPattern=".*\\.mctemplate"/>
-                <data android:pathPattern=".*\\..*\\.mctemplate"/>
-                <data android:pathPattern=".*\\..*\\..*\\.mctemplate"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.mctemplate"/>
-                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mctemplate"/>
-            </intent-filter>
-            <intent-filter>
                 <action
-                        android:name="xbox_live_game_invite" />
-                <action
-                        android:name="xbox_live_achievement_unlock" />
+                    android:name="android.intent.action.VIEW" />
                 <category
-                        android:name="android.intent.category.DEFAULT" />
+                    android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity
-                android:name="com.microsoft.xal.browser.IntentHandler"
-                android:exported="true"
-                android:launchMode="singleTask"
-                android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
-                android:alwaysRetainTaskState="true">
             <intent-filter>
                 <action
-                        android:name="android.intent.action.VIEW" />
+                    android:name="android.intent.action.VIEW" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
                 <data
-                        android:scheme="@string/xal_token"
-                        android:host="auth" />
+                    android:mimeType="*/*" />
+                <data
+                    android:host="*" />
+                <data
+                    android:scheme="file" />
+                <data
+                    android:scheme="content" />
+                <data
+                    android:pathPattern=".*\\.mcworld" />
+                <data
+                    android:pathPattern=".*\\..*\\.mcworld" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\.mcworld" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\.mcworld" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mcworld" />
+                <data
+                    android:pathPattern=".*\\.mcpack" />
+                <data
+                    android:pathPattern=".*\\..*\\.mcpack" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\.mcpack" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\.mcpack" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mcpack" />
+                <data
+                    android:pathPattern=".*\\.mcaddon" />
+                <data
+                    android:pathPattern=".*\\..*\\.mcaddon" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\.mcaddon" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\.mcaddon" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mcaddon" />
+                <data
+                    android:pathPattern=".*\\.mctemplate" />
+                <data
+                    android:pathPattern=".*\\..*\\.mctemplate" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\.mctemplate" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\.mctemplate" />
+                <data
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mctemplate" />
+            </intent-filter>
+            <intent-filter>
+                <action
+                    android:name="xbox_live_game_invite" />
+                <action
+                    android:name="xbox_live_achievement_unlock" />
                 <category
-                        android:name="android.intent.category.DEFAULT" />
-                <category
-                        android:name="android.intent.category.BROWSABLE" />
+                    android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-                android:name="com.microsoft.xal.browser.BrowserLaunchActivity"
-                android:exported="false"
-                android:launchMode="singleTask"
-                android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
-                android:alwaysRetainTaskState="true" />
+            android:name="com.microsoft.xal.browser.IntentHandler"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
+            android:alwaysRetainTaskState="true">
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.VIEW" />
+                <data
+                    android:scheme="@string/xal_token"
+                    android:host="auth" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+                <category
+                    android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
         <activity
-                android:name="com.microsoft.xal.browser.WebKitWebViewController"
-                android:exported="false"
-                android:launchMode="singleTask"
-                android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
-                android:alwaysRetainTaskState="true" />
+            android:name="com.microsoft.xal.browser.BrowserLaunchActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
+            android:alwaysRetainTaskState="true" />
+        <activity
+            android:name="com.microsoft.xal.browser.WebKitWebViewController"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation|screenSize|uiMode"
+            android:alwaysRetainTaskState="true" />
         <provider
-                android:name="androidx.core.content.FileProvider"
-                android:exported="false"
-                android:authorities="io.bambosan.mbloader.fileprovider"
-                android:grantUriPermissions="true">
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="io.bambosan.mbloader.fileprovider"
+            android:grantUriPermissions="true">
             <meta-data
-                    android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/file_provider_paths"/>
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
         </provider>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="io.bambosan.mbloader.androidx-startup">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action
+                    android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action
+                    android:name="androidx.profileinstaller.action.SKIP_FILE" />
+            </intent-filter>
+            <intent-filter>
+                <action
+                    android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action
+                    android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.android.support.Launcher"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="true" />
     </application>
-
 </manifest>
