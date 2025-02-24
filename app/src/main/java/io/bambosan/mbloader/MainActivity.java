@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {        
-                startLauncher(handler, listener, "modmenu.dex", mcPkgName.getText().toString());    
+                System.loadLibrary("MyLibName");
             }
         });
 }
