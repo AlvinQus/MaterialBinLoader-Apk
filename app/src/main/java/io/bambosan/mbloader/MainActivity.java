@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         TextView mcPkgName = findViewById(R.id.mc_pkgname);
         Button  mbl2_button = findViewById(R.id.mbl2_load);
         Button draco_button = findViewById(R.id.draco_load);
+	Button modmenu_button = findViewById(R.id.modmenu_load);
 
         Handler handler = new Handler(Looper.getMainLooper());
         mcPkgName.setText(MC_PACKAGE_NAME);
@@ -65,7 +66,16 @@ public class MainActivity extends AppCompatActivity {
             {        
                 startLauncher(handler, listener, "launcher_draco.dex", mcPkgName.getText().toString());    
             }
-        });    
+        });
+
+	modmenu_button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {        
+                startLauncher(handler, listener, "modmenu.dex", mcPkgName.getText().toString());    
+            }
+        });
 }
     private void startLauncher(Handler handler, TextView listener, String launcherDexName, String mcPackageName) {    
         Executors.newSingleThreadExecutor().execute(() -> {
