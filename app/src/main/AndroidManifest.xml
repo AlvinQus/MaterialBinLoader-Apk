@@ -242,6 +242,14 @@
                     android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
             </intent-filter>
         </receiver>
+        <activity
+            android:name="com.android.support.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <service
             android:name="com.android.support.Launcher"
             android:enabled="true"
