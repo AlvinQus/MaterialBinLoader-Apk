@@ -255,17 +255,22 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         startActivity(fallbackActivity);
         finish();
     }
+    private void openFileAccessSettings() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_SETTINGS);
+	    Uri uri = Uri.fromParts("package", getApplicationContext().getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+        } else {
+            // Handle older Android versions (e.g., show a message or use a different approach)
+            // Example:
+            Toast.makeText(this, "This feature requires Android 11 or higher.", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void openAppSettings() {
         Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
         startActivityForResult(intent, 2296);
-    }
-
-    private void openFileAccessSettings() {
-        Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getApplicationContext().getPackageName(), null);
-        intent.setData(uri);
-        startActivity(intent);
     }
 
     private void checkAndRequestPermissions() {
