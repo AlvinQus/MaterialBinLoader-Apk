@@ -13,14 +13,21 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Build;
 import androidx.appcompat.app.AppCompatActivity;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
+
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -245,5 +252,55 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
             }
         }
     }
-    
+
+private static final int PERMISSION_REQUEST_CODE = 100;
+
+private void requestStoragePermission() {
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE},
+                PERMISSION_REQUEST_CODE);
+    } else {
+        // Izin sudah diberikan
+        moveFile();
+    }
+}
+
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if (requestCode == PERMISSION_REQUEST_CODE) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Izin diberikan
+            moveFile();
+        } else {
+            // Izin ditolak
+            // Tampilkan pesan atau nonaktifkan fitur
+        }
+    }
+}
+
+private void moveFile() {
+    File sourceFile = new File(getExternalFilesDir(null), "data/io.bambosan.mbloader/files");
+    File destinationFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "games/io.bambosan.mbloader/files");
+
+    try {
+        if (!destinationFile.getParentFile().exists()) {
+            destinationFile.getParentFile().mkdirs();
+        }
+        if (!destinationFile.exists()) {
+            destinationFile.createNewFile();
+        }
+        FileChannel source = new FileInputStream(sourceFile).getChannel();
+        FileChannel destination = new FileOutputStream(destinationFile).getChannel();
+        destination.transferFrom(source, 0, source.size());
+        source.close();
+        destination.close();
+        // File berhasil dipindahkan
+    } catch (IOException e) {
+        e.printStackTrace();
+        // Penanganan error
+    }
+}
 }
