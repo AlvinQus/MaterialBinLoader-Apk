@@ -73,13 +73,35 @@
 			android:id="@+id/textview2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/draco_desc" />
+			android:text="export" />
 
 		<Button
 			android:id="@+id/modmenu_load"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Load with modmenu" />
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/tablelayout2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"		
+		android:padding="8dp"
+		android:background="#FF000000">
+
+		<TextView
+			android:id="@+id/textview2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="import" />
+
+		<Button
+			android:id="@+id/modmenu2_load"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Load with modmenu2" />
 
 	</LinearLayout>
 
