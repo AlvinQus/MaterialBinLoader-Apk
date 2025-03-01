@@ -41,8 +41,6 @@ import java.util.zip.ZipInputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import android.widget.Toast;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String MC_PACKAGE_NAME = "com.mojang.minecraftpe";
