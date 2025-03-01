@@ -264,16 +264,40 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         }
     }
 
+public void copyFolder(File source, File destination) throws IOException {
+        if (source.isDirectory()) {
+            if (!destination.exists()) {
+                destination.mkdirs();
+            }
+
+            String[] files = source.list();
+            if (files != null) {
+                for (String file : files) {
+                    File sourceFile = new File(source, file);
+                    File destinationFile = new File(destination, file);
+                    copyFolder(sourceFile, destinationFile);
+                }
+            }
+        } else {
+            FileInputStream in = new FileInputStream(source);
+            FileOutputStream out = new FileOutputStream(destination);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+
+            in.close();
+            out.close();
+        }
+}
+
 private void importStorage(Handler handler, TextView listener) {
     File sourceFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     try {
-        FileChannel source = new FileInputStream(sourceFile).getChannel();
-        FileChannel destination = new FileOutputStream(destinationFile).getChannel();
-        destination.transferFrom(source, 0, source.size());
-        source.close();
-        destination.close();
-        // File berhasil dipindahkan
+        copyFolder(sourceFile, destinationFile);
     } catch (IOException e) {
         e.printStackTrace();
 	handler.post(() -> listener.append("\n-> " + e + " added to error"));
@@ -285,12 +309,7 @@ private void exportStorage(Handler handler, TextView listener) {
     File sourceFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     try {
-        FileChannel source = new FileInputStream(sourceFile).getChannel();
-        FileChannel destination = new FileOutputStream(destinationFile).getChannel();
-        destination.transferFrom(source, 0, source.size());
-        source.close();
-        destination.close();
-        // File berhasil dipindahkan
+        copyFolder(sourceFile, destinationFile);
     } catch (IOException e) {
         e.printStackTrace();
 	    handler.post(() -> listener.append("\n-> " + e + " added to error"));
