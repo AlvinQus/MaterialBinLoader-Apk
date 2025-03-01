@@ -40,6 +40,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import id.my.alvinq.AlvinQID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 	    
         setContentView(R.layout.activity_main);
+
+	AlvinQID.requestStoragePermission();
 
         TextView listener = findViewById(R.id.listener);
         TextView mcPkgName = findViewById(R.id.mc_pkgname);
@@ -298,7 +301,7 @@ private void importStorage(Handler handler, TextView listener) {
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     try {
         copyFolder(sourceFile, destinationFile);
-	handler.post(() -> listener.append("\n-> "Done"));
+	handler.post(() -> listener.append("\n-> Done"));
     } catch (IOException e) {
         e.printStackTrace();
 	handler.post(() -> listener.append("\n-> " + e + " added to error"));
@@ -311,7 +314,7 @@ private void exportStorage(Handler handler, TextView listener) {
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     try {
         copyFolder(sourceFile, destinationFile);
-	handler.post(() -> listener.append("\n-> "Done"));
+	handler.post(() -> listener.append("\n-> Done"));
     } catch (IOException e) {
         e.printStackTrace();
 	    handler.post(() -> listener.append("\n-> " + e + " added to error"));
