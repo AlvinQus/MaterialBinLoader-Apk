@@ -1,3 +1,5 @@
+package id.my.alvinq;
+
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
