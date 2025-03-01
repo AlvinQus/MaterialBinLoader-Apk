@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
+import android.provider.Settings;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
