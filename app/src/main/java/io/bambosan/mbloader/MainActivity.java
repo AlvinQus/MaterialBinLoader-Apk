@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {        
-                exportStorage();
+                exportStorage(handler);
             }
         });
 	modmenu_button2.setOnClickListener(new View.OnClickListener()
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {        
-                importStorage();
+                importStorage(handler);
             }
         });
 }
@@ -264,7 +264,7 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         }
     }
 
-private void importStorage() {
+private void importStorage(Handler handler) {
     File sourceFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     try {
@@ -276,11 +276,12 @@ private void importStorage() {
         // File berhasil dipindahkan
     } catch (IOException e) {
         e.printStackTrace();
+	handler.post(() -> listener.append("\n-> " + e + " added to error"));
         // Penanganan error
     }
 }
 
-private void exportStorage() {
+private void exportStorage(Handler handler) {
     File sourceFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     try {
@@ -292,6 +293,7 @@ private void exportStorage() {
         // File berhasil dipindahkan
     } catch (IOException e) {
         e.printStackTrace();
+	    handler.post(() -> listener.append("\n-> " + e + " added to error"));
         // Penanganan error
     }
 }
