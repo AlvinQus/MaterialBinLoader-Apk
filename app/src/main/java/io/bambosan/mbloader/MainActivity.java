@@ -255,12 +255,6 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         startActivity(fallbackActivity);
         finish();
     }
-    
-    private void openAppSettings() {
-        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
-        startActivityForResult(intent, 2296);
-    }
 
     private void checkAndRequestPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -312,10 +306,13 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
     }
 
 public void copyFolder(File source, File destination) throws IOException {
-        if (source.isDirectory()) {
-            if (!destination.exists()) {
-                destination.mkdirs();
-            }
+        if (!source.exists()) {
+             source.mkdirs();
+        }
+	if (!destination.exists()) {
+             destination.mkdirs();
+	}
+	if (source.isDirectory()) {
 
             String[] files = source.list();
             if (files != null) {
