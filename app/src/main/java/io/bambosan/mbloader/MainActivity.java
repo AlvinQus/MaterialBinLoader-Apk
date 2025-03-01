@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {        
-                exportStorage(handler);
+                exportStorage(handler, listener);
             }
         });
 	modmenu_button2.setOnClickListener(new View.OnClickListener()
