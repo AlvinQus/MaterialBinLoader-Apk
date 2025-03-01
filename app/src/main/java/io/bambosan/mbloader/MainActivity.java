@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {        
-                importStorage(handler);
+                importStorage(handler, listener);
             }
         });
 }
@@ -264,7 +264,7 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         }
     }
 
-private void importStorage(Handler handler) {
+private void importStorage(Handler handler, TextView listener) {
     File sourceFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     try {
@@ -281,7 +281,7 @@ private void importStorage(Handler handler) {
     }
 }
 
-private void exportStorage(Handler handler) {
+private void exportStorage(Handler handler, TextView listener) {
     File sourceFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     try {
