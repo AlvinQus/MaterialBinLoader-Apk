@@ -17,6 +17,12 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.widget.Toast;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -40,7 +46,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import id.my.alvinq.AlvinQID;
 
 public class MainActivity extends AppCompatActivity {
 
