@@ -257,8 +257,8 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
     }
 
 private void moveFile() {
-    File source = new File(Environment.getExternalStorageDirectory(), "Android/data/com.mojang.minecraftpe/files/games/com.mojang");
-        File destination = new File(Environment.getExternalStorageDirectory(), "games/com.mojang");
+    File sourceFile = new File(Environment.getExternalStorageDirectory(), "Android/data/com.mojang.minecraftpe/files/games/com.mojang");
+    File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/com.mojang");
     try {
         if (!destinationFile.getParentFile().exists()) {
             destinationFile.getParentFile().mkdirs();
