@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+	    
         setContentView(R.layout.activity_main);
 
         TextView listener = findViewById(R.id.listener);
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         Button  mbl2_button = findViewById(R.id.mbl2_load);
         Button draco_button = findViewById(R.id.draco_load);
 	Button modmenu_button = findViewById(R.id.modmenu_load);
+	Button modmenu_button2 = findViewById(R.id.modmenu2_load);
 
         Handler handler = new Handler(Looper.getMainLooper());
         mcPkgName.setText(MC_PACKAGE_NAME);
@@ -83,7 +85,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {        
-                startLauncher(handler, listener, "launcher_modloader.dex", mcPkgName.getText().toString());
+                exportStorage();
+            }
+        });
+	modmenu_button2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {        
+                importStorage();
             }
         });
 }
@@ -256,16 +266,26 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         }
     }
 
-private void moveFile() {
-    File sourceFile = new File(Environment.getExternalStorageDirectory(), "Android/data/com.mojang.minecraftpe/files/games/com.mojang");
-    File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/com.mojang");
+private void importStorage() {
+    File sourceFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
+    File destinationFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     try {
-        if (!destinationFile.getParentFile().exists()) {
-            destinationFile.getParentFile().mkdirs();
-        }
-        if (!destinationFile.exists()) {
-            destinationFile.createNewFile();
-        }
+        FileChannel source = new FileInputStream(sourceFile).getChannel();
+        FileChannel destination = new FileOutputStream(destinationFile).getChannel();
+        destination.transferFrom(source, 0, source.size());
+        source.close();
+        destination.close();
+        // File berhasil dipindahkan
+    } catch (IOException e) {
+        e.printStackTrace();
+        // Penanganan error
+    }
+}
+
+private void exportStorage() {
+    File sourceFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
+    File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
+    try {
         FileChannel source = new FileInputStream(sourceFile).getChannel();
         FileChannel destination = new FileOutputStream(destinationFile).getChannel();
         destination.transferFrom(source, 0, source.size());
