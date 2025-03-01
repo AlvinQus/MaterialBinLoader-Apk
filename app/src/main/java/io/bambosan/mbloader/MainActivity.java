@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 	checkAndRequestPermissions();
-        openAppSettings();
+        
         TextView listener = findViewById(R.id.listener);
         TextView mcPkgName = findViewById(R.id.mc_pkgname);
         Button  mbl2_button = findViewById(R.id.mbl2_load);
