@@ -298,6 +298,7 @@ private void importStorage(Handler handler, TextView listener) {
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "Android/data/io.bambosan.mbloader");
     try {
         copyFolder(sourceFile, destinationFile);
+	handler.post(() -> listener.append("\n-> "Done"));
     } catch (IOException e) {
         e.printStackTrace();
 	handler.post(() -> listener.append("\n-> " + e + " added to error"));
@@ -310,6 +311,7 @@ private void exportStorage(Handler handler, TextView listener) {
     File destinationFile = new File(Environment.getExternalStorageDirectory(), "games/io.bambosan.mbloader");
     try {
         copyFolder(sourceFile, destinationFile);
+	handler.post(() -> listener.append("\n-> "Done"));
     } catch (IOException e) {
         e.printStackTrace();
 	    handler.post(() -> listener.append("\n-> " + e + " added to error"));
