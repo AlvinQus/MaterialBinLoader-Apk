@@ -50,6 +50,7 @@ import java.lang.reflect.Method;
 public class MainActivity extends AppCompatActivity {
 
     private static final String MC_PACKAGE_NAME = "com.mojang.minecraftpe";
+    private static final int PERMISSION_REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
 	    
         setContentView(R.layout.activity_main);
 
-	AlvinQID.requestStoragePermission();
-
+	checkAndRequestPermissions();
+        openAppSettings();
         TextView listener = findViewById(R.id.listener);
         TextView mcPkgName = findViewById(R.id.mc_pkgname);
         Button  mbl2_button = findViewById(R.id.mbl2_load);
@@ -252,6 +253,49 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         fallbackActivity.putExtra("LOG_STR", logMessage);
         startActivity(fallbackActivity);
         finish();
+    }
+    private void openAppSettings() {
+        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
+        startActivityForResult(intent, 2296);
+    }
+
+    private void openFileAccessSettings() {
+        Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getApplicationContext().getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    private void checkAndRequestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        } else {
+            Toast.makeText(this, "Izin akses penyimpanan diberikan", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2296) {
+            // Handle result from app settings
+            Toast.makeText(this, "Izin akses semua file diberikan", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Izin akses semua file ditolak", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Izin akses penyimpanan diberikan", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Izin akses penyimpanan ditolak", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private static void copyFile(InputStream from, @NotNull File to) throws IOException {
