@@ -41,6 +41,8 @@ import java.util.zip.ZipInputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import android.widget.Toast;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String MC_PACKAGE_NAME = "com.mojang.minecraftpe";
@@ -254,38 +256,9 @@ String logMessage = e.getCause() != null ? e.getCause().toString() : e.toString(
         }
     }
 
-private static final int PERMISSION_REQUEST_CODE = 100;
-
-private void requestStoragePermission() {
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE},
-                PERMISSION_REQUEST_CODE);
-    } else {
-        // Izin sudah diberikan
-        moveFile();
-    }
-}
-
-@Override
-public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    if (requestCode == PERMISSION_REQUEST_CODE) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // Izin diberikan
-            moveFile();
-        } else {
-            // Izin ditolak
-            // Tampilkan pesan atau nonaktifkan fitur
-        }
-    }
-}
-
 private void moveFile() {
-    File sourceFile = new File(getExternalFilesDir(null), "data/io.bambosan.mbloader/files");
-    File destinationFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "games/io.bambosan.mbloader/files");
-
+    File source = new File(Environment.getExternalStorageDirectory(), "Android/data/com.mojang.minecraftpe/files/games/com.mojang");
+        File destination = new File(Environment.getExternalStorageDirectory(), "games/com.mojang");
     try {
         if (!destinationFile.getParentFile().exists()) {
             destinationFile.getParentFile().mkdirs();
