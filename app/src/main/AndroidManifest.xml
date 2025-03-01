@@ -2,7 +2,6 @@
 <manifest
     android:compileSdkVersion="35"
     android:compileSdkVersionCodename="15"
-    package="io.bambosan.mbloader"
     platformBuildVersionCode="35"
     platformBuildVersionName="15"
     xmlns:android="http://schemas.android.com/apk/res/android">
